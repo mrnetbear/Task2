@@ -1,23 +1,84 @@
-# G4-Brems
-A Geant4 Model of Bremsstrahlung or "braking radiation." In this model I will mimic the production of Bremsstrahlung by shooting electrons at a tungsten target and detect the energies of the resulting x-ray photons. 
+# Geant4 Scintillator Detector Simulation
 
-# Measurements
-- Electron energies = 6 MeV based on the equation $U (V) = E_{electron} (eV)$ [1](#sources) In other words, a 6 MV beam of a linac would produce 6 MeV electrons.
-- Electron beam width: 1 mm [2](#sources)
+## Project Overview
 
-- Tungsten target=1mm thick and 3cm diameter
-- Graphite electron absorber=1.5cm thick and 3cm diameter
-- Tungsten collimator=6.2cm thick, 4 cm inner diameter and 7 cm outer diameter
+This project implements a scintillator detector simulation using CERN Geant4. The simulation models gamma radiation interaction with different scintillator materials (NaI and LSO) and includes collimator geometry for beam shaping.
 
+## Project Structure
 
+The code is organized into standard Geant4 user action classes:
 
-# Sources
-- 1: [Bremsstrahlung article](https://folk.ntnu.no/floban/KJ%20%203055/X%20%20Ray/Bremsstrahlung.htm)
-- 2: [How a Linear Accelerator Works Video (03:00)](https://www.youtube.com/watch?v=jSgnWfbEx1A)
+- **DetectorConstruction**: Defines the geometry including scintillator, plate, and world volume
+- **PhysicsList**: Implements electromagnetic physics processes
+- **PrimaryGeneratorAction**: Generates gamma particles with dual energy sources (661 keV and 1461 keV)
+- **ActionInit**: Initializes all user action classes
+- **RunAction**: Manages run-level operations and data output
+- **EventAction**: Handles event-level data accumulation
+- **SteppingAction**: Processes step-by-step particle tracking
 
-# Credit to Geant4
-- [Geant4 website](https://geant4.web.cern.ch/)
+## Key Features
 
-- [Recent Developments in Geant4](https://www.sciencedirect.com/science/article/pii/S0168900216306957), J. Allison et al., Nucl. Instrum. Meth. A 835 (2016) 186-225
-- [Geant4 Developments and Applications](https://ieeexplore.ieee.org/xpls/abs_all.jsp?isnumber=33833&arnumber=1610988&count=33&index=7), J. Allison et al., IEEE Trans. Nucl. Sci. 53 (2006) 270-278
-- [Geant4 - a Simulation Toolkit](https://www.sciencedirect.com/science/article/pii/S0168900203013688), S. Agostinelli et al., Nucl. Instrum. Meth. A 506 (2003) 250-303
+- **Dual Energy Source**: Simulates gamma rays at 661 keV and 1461 keV with equal probability
+- **Multiple Scintillator Materials**: Supports both NaI and LSO scintillators
+- **Collimator System**: Includes aluminum plate for beam definition
+- **Data Output**: Stores energy deposition and position data in ROOT format
+- **Visualization**: Compatible with Geant4 visualization systems
+
+## Geometry Components
+
+- **Scintillator**: Cylindrical detector (3cm diameter × 4cm height)
+- **Plate**: Aluminum plate with defined aperture
+- **World Volume**: 1m³ air-filled container
+
+## Build Requirements
+
+- Geant4 (version 11.0 or higher)
+- CMake (version 3.8 or higher)
+- C++ compiler with C++11 support
+- ROOT (for data analysis)
+
+## Building the Project
+
+```bash
+mkdir build
+cd build
+cmake ..
+make -j4
+```
+
+## Usage
+
+### Interactive Mode
+```bash
+./task2
+```
+
+### Batch Mode
+```bash
+./task2 macro.mac
+```
+
+## Output Data
+
+The simulation generates ROOT files containing:
+- Deposited energy in scintillator
+- Interaction positions (X, Y, Z coordinates)
+- Source energy identification
+
+## Physics Processes
+
+The simulation includes:
+- Electromagnetic interactions (Compton scattering, photoelectric effect, pair production)
+- Particle transportation
+- Energy deposition tracking
+
+## Configuration
+
+Key parameters can be modified in the source files:
+- Scintillator material (NaI/LSO) in `DetectorConstruction.cc`
+- Gamma energies in `PrimaryGeneratorAction.cc`
+- Geometry dimensions in `DetectorConstruction.cc`
+
+## License
+
+This project is intended for educational and research purposes.
