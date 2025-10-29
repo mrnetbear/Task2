@@ -52,7 +52,7 @@ namespace TASK2
 
 		G4double energy1 = 661 * keV, energy2 = 1461 * keV; //particle energy
 
-		if ((double)rand() / RAND_MAX > .5){
+		if ((double)G4UniformRand() > .5){
 			fParticleGun->SetParticleEnergy(energy1);
 			fSource = true;
 		}
