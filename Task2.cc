@@ -13,6 +13,7 @@
 #include <random>
 #include <unistd.h>
 #include "Randomize.hh"
+#include "QBBC.hh"
 
 
 #ifdef G4MULTITHREADED
@@ -62,10 +63,10 @@ int main(int argc, char** argv)
 	// либо можно вручную задать число потоков
 	//runManager->SetNumberOfThreads(G4Threading::G4GetNumberOfCores());
 
-	
+	auto physicsList = new QBBC;
 	// set 3 required initialization classes
 	runManager->SetUserInitialization(new DetectorConstruction());
-	runManager->SetUserInitialization(new PhysicsList());
+	runManager->SetUserInitialization(physicsList);
 	runManager->SetUserInitialization(new ActionInit());
 
 	// ======================================================================
